@@ -61,17 +61,15 @@ minimo (Raiz a izquierdo b) = minimo izquierdo
 
 eliminar :: Ord a => Arbol a -> a -> Arbol a
 eliminar ArbolVacio b = error "No hay ningun elemento para eliminar"
-eliminar (Raiz a izquierdo derecho) b = if b < a 
-                                then Raiz a (eliminar izquierdo b) derecho
-                                else if b > a 
-                                        then Raiz a izquierdo (eliminar derecho b)
-                                        else eliminarRaiz (Raiz a izquierdo derecho)
-
-eliminarRaiz :: Ord a => Arbol a -> Arbol a
-eliminarRaiz (Raiz a ArbolVacio derecho) = derecho
-eliminarRaiz (Raiz a izquierdo ArbolVacio) = izquierdo
-eliminarRaiz (Raiz a izquierdo derecho) = eliminarMinimo derecho izquierdo
-
-eliminarMinimo :: Arbol a -> Arbol a -> Arbol a
-eliminarMinimo (Raiz a ArbolVacio derecho) izquierdo = Raiz a izquierdo derecho
-eliminarMinimo (Raiz a izquierdo derecho) b = Raiz a (eliminarMinimo izquierdo b) derecho
+eliminar (Raiz a ArbolVacio derecho) b = if a == b
+                                            then derecho
+                                            else error "El elemento no existe en el arbol"
+eliminar (Raiz a izquierdo ArbolVacio) b = if a == b
+                                            then izquierdo
+                                            else error "El elemento no existe en el arbol"
+eliminar (Raiz a izquierdo derecho) b = if b < a
+                                            then (Raiz a (eliminar Izquierdo b) derecho)
+                                            else if b > a
+                                                  then (Raiz a izquierdo (eliminar derecho b))
+                                                  else (Raiz (minimo derecho) izquierdo (eliminar derecho (minimo derecho)))
+                                            
